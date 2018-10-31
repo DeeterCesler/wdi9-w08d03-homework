@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import HelloWorld from "./HelloWorld";
-import Search from './Search';
+import SearchContainer from './SearchContainer';
 
 class App extends Component {
   constructor(){
@@ -23,7 +23,7 @@ class App extends Component {
     return (
       <div className="App">
         <HelloWorld />
-        <Search query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery}/>
+        <SearchContainer query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery}/>
       </div>
     );
   }
