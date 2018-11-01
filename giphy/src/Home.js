@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 import HelloWorld from "./HelloWorld";
 import SearchContainer from './SearchContainer';
+import Results from "./Results";
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      query: ""
+      query: "",
+      submittedSearch: false
     }
   }
   inputHandler = (e) => {
@@ -15,15 +17,19 @@ class App extends Component {
       query: e.currentTarget.value
     })
   }
-  handleQuery = (e) => {
+  handleQuery = async (e) => {
     e.preventDefault();
-    console.log(this.state.query, "QUERIED");
+    await this.setState({
+      submittedSearch: true
+    })
+    console.log(this.state.submittedSearch);
+    return;
   }
   render() {
     return (
       <div className="App">
         <HelloWorld />
-        <SearchContainer query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery}/>
+        <SearchContainer submittedSearch={this.state.submittedSearch} query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery}/>
       </div>
     );
   }
