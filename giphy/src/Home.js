@@ -9,7 +9,8 @@ class App extends Component {
     super();
     this.state = {
       query: "",
-      submittedSearch: false
+      submittedSearch: false,
+      queriedGifs: []
     }
   }
   inputHandler = (e) => {
@@ -18,18 +19,26 @@ class App extends Component {
     })
   }
   handleQuery = async (e) => {
-    e.preventDefault();
-    await this.setState({
-      submittedSearch: true
-    })
-    console.log(this.state.submittedSearch);
-    return;
+    try{
+      e.preventDefault();
+      const foundGifs = await fetch("https://api.giphy.com/v1/gifs/search?api_key=d5HafejXzCKkO8J32vFEHUuLTIitzetc&q=" + this.state.query + "&limit=5");
+      const parsedGifs = await foundGifs.json();
+      console.log(parsedGifs);
+      await this.setState({
+        submittedSearch: true,
+        queriedGifs: parsedGifs.data
+      })
+      console.log(this.state);
+      return;
+    }catch(err){
+      console.log(err)
+    }
   }
   render() {
     return (
       <div className="App">
         <HelloWorld />
-        <SearchContainer submittedSearch={this.state.submittedSearch} query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery}/>
+        <SearchContainer submittedSearch={this.state.submittedSearch} query={this.state.query} inputHandler={this.inputHandler} handleQuery={this.handleQuery} queriedGifs={this.state.queriedGifs}/>
       </div>
     );
   }
